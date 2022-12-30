@@ -6,7 +6,7 @@ export const Home = () => {
     const [data, setData] = useState([]);
 
     function fetchData(){
-        axios.get('http://localhost:3000/server/getData')
+        axios.get('http://localhost:3000/getData')
             .then((res)=>{
                 console.log(res.data);
                 setData(res.data);

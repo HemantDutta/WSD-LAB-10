@@ -18,6 +18,16 @@ export const Home = () => {
     const [addCat, setAddCat] = useState('');
     const [addRat, setAddRat] = useState('');
 
+    const [search, setSearch] = useState('');
+
+    function searchData() {
+        axios.get(`http://localhost:3000/search?search=${search}`)
+            .then((res)=>{
+                console.log('search: '+res.data);
+                setData(res.data);
+            })
+    }
+
     function edit() {
         axios.post('http://localhost:3000/editUser', {
             newName,
@@ -34,12 +44,7 @@ export const Home = () => {
                     showConfirmButton: false,
                     timer: 1500
                 })
-                axios.get('http://localhost:3000/getData')
-                    .then((res) => {
-                        console.log("call counter");
-                        console.log(res.data);
-                        setData(res.data);
-                    })
+                showAll();
             }
         })
     }
@@ -72,24 +77,14 @@ export const Home = () => {
                         console.log(res.data);
                         if (res.data === 'Deleted') {
                             Swal.fire('Deleted', '', 'success')
-                            axios.get('http://localhost:3000/getData')
-                                .then((res) => {
-                                    console.log("call counter");
-                                    console.log(res.data);
-                                    setData(res.data);
-                                })
+                            showAll();
                         }
                     });
 
             } else if (result.isDenied) {
                 console.log('Denied')
                 Swal.fire('Delete Cancelled', '', 'info');
-                axios.get('http://localhost:3000/getData')
-                    .then((res) => {
-                        console.log("call counter");
-                        console.log(res.data);
-                        setData(res.data);
-                    })
+                showAll();
             }
         })
     }
@@ -104,21 +99,20 @@ export const Home = () => {
             if(res.data==='Added'){
                 Swal.fire('User Added', '','success')
             }
-            axios.get('http://localhost:3000/getData')
-                .then((res) => {
-                    console.log("call counter");
-                    console.log(res.data);
-                    setData(res.data);
-                });
+            showAll();
         });
     }
 
-    useEffect(() => {
+    function showAll(){
         axios.get('http://localhost:3000/getData')
             .then((res) => {
                 console.log(res.data);
                 setData(res.data);
             })
+    }
+
+    useEffect(() => {
+        showAll();
     }, []);
 
     return (
@@ -176,8 +170,9 @@ export const Home = () => {
                                 <button className="btn btn-outline-light" data-toggle="modal" data-target="#addModal">ADD</button>
                             </div>
                             <div className="search px-5 d-flex align-items-center">
-                                <input type="text" name="search" id="search" placeholder="search data..."/>
-                                <button className="btn btn-outline-light mx-2">Search</button>
+                                <input type="text" name="search" id="search" placeholder="search data..." onChange={(e)=>setSearch(e.target.value)}/>
+                                <button className="btn btn-outline-light mx-2" onClick={searchData}>Search</button>
+                                <button className="btn btn-outline-light mx-2" onClick={showAll}>Show All</button>
                             </div>
                         </div>
                     </div>

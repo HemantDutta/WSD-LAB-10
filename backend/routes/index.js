@@ -81,4 +81,18 @@ router.post('/addUser', (req,res)=>{
   })
 });
 
+//search
+router.get('/search', (req,res)=>{
+  let search = req.query.search;
+
+  let srSQL = `select * from users where name like '%${search}%' or category like '%${search}%'`;
+
+  conn.query(srSQL, (err,rows)=>{
+    if (err) throw err;
+
+    res.send(rows);
+    console.log(rows);
+  })
+});
+
 module.exports = router;

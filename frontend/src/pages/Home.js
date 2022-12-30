@@ -1,4 +1,22 @@
+import {useEffect, useState} from "react";
+import axios from "axios";
+
 export const Home = () => {
+
+    const [data, setData] = useState([]);
+
+    function fetchData(){
+        axios.get('http://localhost:3000/server/getData')
+            .then((res)=>{
+                console.log(res.data);
+                setData(res.data);
+            })
+    }
+
+    useEffect(()=>{
+        fetchData();
+    }, []);
+
     return (
         <>
             <div className="main-cont">
@@ -8,7 +26,7 @@ export const Home = () => {
                     </div>
                 </div>
                 <div className="mid-sect w-75">
-                    
+
                 </div>
             </div>
         </>

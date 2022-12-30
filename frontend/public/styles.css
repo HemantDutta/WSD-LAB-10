@@ -1,5 +1,5 @@
 body {
-    background-color: #252525;
+    background-color: #282828;
     font-family: Dubai;
 }
 
@@ -56,7 +56,7 @@ body {
 }
 
 .mid-sect{
-    margin-top: 18em;
+    margin-top: 10em;
 }
 
 .card {
@@ -70,6 +70,10 @@ body {
     cursor: pointer;
 }
 
-.card-text{
+table td, th{
+    padding: 20px;
+    width: 14.28%;
+    text-align: center;
+    color: white;
 
 }

@@ -29,4 +29,56 @@ router.get('/getData', (req,res)=>{
   });
 });
 
+//get user data for editing
+router.get('/getUser', (req,res)=>{
+  let id = req.query.id;
+  let selectSQL = `select * from users where id = ${id}`;
+
+  conn.query(selectSQL, (err,rows)=>{
+    if (err) throw err;
+    res.send(rows);
+  });
+});
+
+//user edit
+router.post('/editUser', (req,res)=>{
+  let {newName, newCat, newRat, edID} = req.body;
+
+  let upSQL = `UPDATE users set name = '${newName}', category = '${newCat}', rating = ${newRat} where id = ${edID}`;
+
+  conn.query(upSQL, (err)=>{
+    if (err) throw err;
+    res.send('success');
+    console.log('update success');
+  })
+});
+
+
+//delete user
+router.get("/deleteCat", (req,res)=>{
+  let id = req.query.id;
+
+  let delSQL = `delete from users where id = ${id}`;
+
+  conn.query(delSQL, (err)=>{
+    if (err) throw err;
+    res.send('Deleted');
+    console.log('Deleted');
+  })
+});
+
+
+//add user
+router.post('/addUser', (req,res)=>{
+  let {addName, addCat, addRat} = req.body;
+
+  let inSQL = `insert into users values(NULL, '${addName}', '${addCat}', ${addRat})`;
+
+  conn.query(inSQL, (err)=>{
+    if(err) throw err;
+    res.send('Added');
+    console.log('Added');
+  })
+});
+
 module.exports = router;
